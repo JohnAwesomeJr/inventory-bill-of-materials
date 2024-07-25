@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+Tailwind build command.
+./tw -i tailwindStyles.css -o styles.css --minify --watch 
+*/

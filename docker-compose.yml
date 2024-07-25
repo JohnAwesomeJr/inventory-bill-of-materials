@@ -1,0 +1,33 @@
+version: "2"
+services:
+  client:
+    container_name: inventory-server
+    build: .
+    # ports:
+    #   - "89:80"
+    volumes:
+      - ./client:/var/www/html/
+    networks:
+      - proxy-server_my-network
+  database:
+    container_name: inventory-database
+    build:
+      context: .
+      dockerfile: Dockerfile-mysql
+    ports:
+      - "33067:3306"
+    environment:
+      MYSQL_DATABASE: myDb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test
+    volumes:
+      - ./dump:/host-machine
+      - ./persistent:/var/lib/mysql
+    networks:
+      - proxy-server_my-network
+networks:
+  proxy-server_my-network:
+    external: true
+volumes:
+  persistent:
