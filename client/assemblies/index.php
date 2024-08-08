@@ -76,7 +76,7 @@ $totalPages = ceil($totalRows / $rowsPerPage);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 <script>
 function confirmDelete(partId) {
-    if (confirm('Are you sure you want to delete this assembly? when an assembly is deleted it is also removed from all assemblies.')) {
+    if (confirm('Are you sure you want to delete this assembly? when an assembly is deleted it is also removed from all assemblies. None of the parts or assemblies that are a part of this assembly will be deleted.')) {
         window.location.href = 'deleteAssembly.php?id=' + partId;
     }
 }

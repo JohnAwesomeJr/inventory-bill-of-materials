@@ -28,8 +28,17 @@ CREATE TABLE `assemblies` (
   PRIMARY KEY (`AssemblyID`),
   UNIQUE KEY `AssemblyName_UNIQUE` (`AssemblyName`),
   UNIQUE KEY `AssemblyID_UNIQUE` (`AssemblyID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `assemblies`
+--
+
+LOCK TABLES `assemblies` WRITE;
+/*!40000 ALTER TABLE `assemblies` DISABLE KEYS */;
+/*!40000 ALTER TABLE `assemblies` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `assemblycomponents`
@@ -46,14 +55,23 @@ CREATE TABLE `assemblycomponents` (
   `Quantity` int NOT NULL,
   PRIMARY KEY (`AssemblyComponentID`),
   UNIQUE KEY `AssemblyComponentID_UNIQUE` (`AssemblyComponentID`),
-  KEY `ParentAssemblyID` (`ParentAssemblyID`),
-  KEY `ChildAssemblyID` (`ChildAssemblyID`),
   KEY `assemblycomponents_ibfk_2` (`ChildPartID`),
-  CONSTRAINT `assemblycomponents_ibfk_1` FOREIGN KEY (`ParentAssemblyID`) REFERENCES `assemblies` (`AssemblyID`),
+  KEY `assemblycomponents_ibfk_3` (`ChildAssemblyID`),
+  KEY `assemblycomponents_ibfk_1` (`ParentAssemblyID`),
+  CONSTRAINT `assemblycomponents_ibfk_1` FOREIGN KEY (`ParentAssemblyID`) REFERENCES `assemblies` (`AssemblyID`) ON DELETE CASCADE,
   CONSTRAINT `assemblycomponents_ibfk_2` FOREIGN KEY (`ChildPartID`) REFERENCES `parts` (`PartID`) ON DELETE CASCADE,
-  CONSTRAINT `assemblycomponents_ibfk_3` FOREIGN KEY (`ChildAssemblyID`) REFERENCES `assemblies` (`AssemblyID`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `assemblycomponents_ibfk_3` FOREIGN KEY (`ChildAssemblyID`) REFERENCES `assemblies` (`AssemblyID`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `assemblycomponents`
+--
+
+LOCK TABLES `assemblycomponents` WRITE;
+/*!40000 ALTER TABLE `assemblycomponents` DISABLE KEYS */;
+/*!40000 ALTER TABLE `assemblycomponents` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `parts`
@@ -68,8 +86,17 @@ CREATE TABLE `parts` (
   PRIMARY KEY (`PartID`),
   UNIQUE KEY `PartID_UNIQUE` (`PartID`),
   UNIQUE KEY `PartName_UNIQUE` (`PartName`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `parts`
+--
+
+LOCK TABLES `parts` WRITE;
+/*!40000 ALTER TABLE `parts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `parts` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -80,4 +107,4 @@ CREATE TABLE `parts` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-25 20:37:06
+-- Dump completed on 2024-08-08  6:21:18
