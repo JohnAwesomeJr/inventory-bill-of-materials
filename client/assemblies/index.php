@@ -3,13 +3,13 @@ require_once "/var/www/html/connection.php";
 
 // Get the current page number from the URL, default to 1 if not set
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-$rowsPerPage = 10;
+$rowsPerPage = 5;
 
 // Calculate the offset for the query
 $offset = ($page - 1) * $rowsPerPage;
 
 // Prepare the query with pagination
-$sql_new = "SELECT * FROM mydb.parts LIMIT ? OFFSET ?";
+$sql_new = "SELECT * FROM mydb.assemblies LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql_new);
 $stmt->bind_param('ii', $rowsPerPage, $offset);
 $stmt->execute();
@@ -30,26 +30,33 @@ $totalPages = ceil($totalRows / $rowsPerPage);
 
 <?php require_once "/var/www/html/htmlHead.php";?>
 
-<div class="min-h-screen bg-gray-100 py-20 px-4"> <!-- Adjusted padding to accommodate fixed headers/footers -->
+<div class="min-h-screen bg-gray-100 py-20 px-4">
+    <!-- Adjusted padding to accommodate fixed headers/footers -->
     <div class="bg-white p-6 rounded-lg shadow-lg">
         <h2 class="text-2xl font-bold mb-4">Parts List</h2>
         <table class="min-w-full bg-white border border-gray-200 rounded-md shadow-md">
             <thead class="bg-gray-800 text-white">
                 <tr>
-                    <th class="py-2 px-4 border-b">Part ID</th>
-                    <th class="py-2 px-4 border-b">Part Name</th>
+                    <th class="py-2 px-4 border-b">Assembly ID</th>
+                    <th class="py-2 px-4 border-b">Assembly Name</th>
                     <th class="py-2 px-4 border-b">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach($result as $row): ?>
                 <tr>
-                    <td class="py-2 px-4 border-b text-center"><?php echo htmlspecialchars($row['PartID']); ?></td>
-                    <td class="py-2 px-4 border-b"><?php echo htmlspecialchars($row['PartName']); ?></td>
+                    <td class="py-2 px-4 border-b text-center"><?php echo htmlspecialchars($row['AssemblyID']); ?></td>
+                    <td class="py-2 px-4 border-b"><?php echo htmlspecialchars($row['AssemblyName']); ?></td>
                     <td class="py-2 px-4 border-b text-center">
-                        <button onclick="confirmDelete(<?php echo htmlspecialchars($row['PartID']); ?>)" class="text-red-600 hover:text-red-800">
+                        <a href="breakdown?assembly=<?= $row['AssemblyID'] ;?>">
+                            <button class="text-green-600 hover:text-green-200">
+                                <i class="iconoir-report-columns"></i>
+                            </button>
+                        </a>
+                        <button onclick="confirmDelete(<?php echo htmlspecialchars($row['AssemblyID']); ?>)" class="text-red-600 hover:text-red-800">
                             <i class="iconoir-trash-solid"></i>
                         </button>
+
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -68,11 +75,11 @@ $totalPages = ceil($totalRows / $rowsPerPage);
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 <script>
-    function confirmDelete(partId) {
-        if (confirm('Are you sure you want to delete this part? when a part is deleted it is also removed from all assemblies.')) {
-            window.location.href = 'deletePart.php?id=' + partId;
-        }
+function confirmDelete(partId) {
+    if (confirm('Are you sure you want to delete this assembly? when an assembly is deleted it is also removed from all assemblies.')) {
+        window.location.href = 'deleteAssembly.php?id=' + partId;
     }
+}
 </script>
 
 <?php require_once "/var/www/html/htmlFoot.php";?>
